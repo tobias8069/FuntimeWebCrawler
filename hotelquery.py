@@ -30,7 +30,7 @@ def hotel_lists(area,checkin,checkout):
     
     #use selenium to search 比價網 
     
-    browser = webdriver.Chrome()
+    browser = webdriver.Chrome('chromedriver')
     browser.get(queryurl)
     wait = WebDriverWait(browser,10)
     wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, 'div.hotel-rates > a')))  #等搜尋結果出來
@@ -78,7 +78,7 @@ def hotel_lists(area,checkin,checkout):
 def get_hotel_content(queue,list):
     
     
-    
+    #從 queue 中拿 url
     while not queue.empty():
         url = queue.get()
     
@@ -102,6 +102,9 @@ def get_hotel_content(queue,list):
                 listcontent[i].select_one('.roomRate').text.replace('NT$', '').replace(',', '').strip())  # 房間價錢
             list.append(content)
             
+
+
+            
 def to_csv(list,path,area):
     
     if not os.path.exists(path):
@@ -111,7 +114,8 @@ def to_csv(list,path,area):
     df = df.reindex(columns=['旅館名稱', '旅館中文名稱', '商家', '內容', '價錢', '旅館地址'])
     df.to_csv(path+'/{}.csv'.format(area), index=False, encoding='utf-8-sig')
    
-def combine_csv():
+
+
     
     
     
@@ -164,7 +168,7 @@ def main() :
             end = time.time()
             print('Querytime : ' + str(round((end - start)/60,2)) + ' minutes\n')
             print('\n搜尋完成時間 ' + time.strftime('%H:%M:%S',time.localtime(start)))
-            
+        
             
             
 if __name__ == '__main__':
