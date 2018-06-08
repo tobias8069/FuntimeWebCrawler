@@ -140,7 +140,7 @@ def main() :
 
             print('搜尋條件 \n\t地點: ' + area, '\n\t入住時間: '+checkin,'\n\t離開時間: '+checkout)
             print('\n現在時間 ' + time.strftime('%H:%M:%S',time.localtime(start)))
-            print('\n........搜尋中 .......')
+            print('\n........ 搜尋中 .......')
             
                          
             
@@ -167,7 +167,7 @@ def main() :
             
             end = time.time()
             print('Querytime : ' + str(round((end - start)/60,2)) + ' minutes\n')
-            print('\n搜尋完成時間 ' + time.strftime('%H:%M:%S',time.localtime(start)))
+            print('\n搜尋完成時間 ' + time.strftime('%H:%M:%S',time.localtime(time.time()))
         
             
             
