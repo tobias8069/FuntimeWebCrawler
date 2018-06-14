@@ -27,6 +27,7 @@ def create_mysql():
     旅館地址 VARCHAR(1000),
     旅館ID VARCHAR(1000),
     地區 VARCHAR(500),
+    URL VARCHAR(500)
     PRIMARY KEY (旅館名稱, 商家, 房型 ,內容)
     );""")
 
@@ -39,7 +40,7 @@ def to_mysql(row):
                            use_unicode=True, charset='utf8mb4')
     cur = conn.cursor()
     cur.execute('USE hotelprice; ')
-    cur.execute("""INSERT INTO price VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
+    cur.execute("""INSERT INTO price VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)""",
                 (row['旅館名稱'],
                  row['商家'],
                  row['房型'],
@@ -48,6 +49,7 @@ def to_mysql(row):
                  row['旅館地址'],
                  row['旅館ID'],
                  row['地區']
+                 row['url']
                  )
                 )
     conn.commit()
@@ -105,7 +107,7 @@ def get_hotel_content(queue, list, area):
             content['房型'] = listcontent[i]['data-type_id']  # 房間型號
             content['旅館ID'] = listcontent[i]['data-h_id']  # 旅館ID
             content['地區'] = area
-
+            content['url'] = url
             to_mysql(content)
 
             list.append(content)
