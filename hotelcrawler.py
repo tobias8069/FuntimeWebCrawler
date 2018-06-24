@@ -11,14 +11,14 @@ import pymysql
 
 
 
-def create_mysql():
+def create_mysql(checkin,checkout):
     conn = pymysql.connect(host='localhost', port=3306, user='root', password='1234', use_unicode=True,
                            charset='utf8mb4')
     cur = conn.cursor()
     cur.execute('CREATE DATABASE IF NOT EXISTS hotelprice ;')
     cur.execute('USE hotelprice; ')
 
-    cur.execute("""CREATE TABLE IF NOT EXISTS price (
+    cur.execute("""CREATE TABLE IF NOT EXISTS {0} (
     旅館名稱 VARCHAR(100),
     商家 VARCHAR(10),
     房型 VARCHAR(5),
@@ -29,7 +29,7 @@ def create_mysql():
     地區 VARCHAR(500),
     URL VARCHAR(500)
     PRIMARY KEY (旅館名稱, 商家, 房型 ,內容)
-    );""")
+    );""".format("price_" + checkin +"_" + checkout))
 
     conn.commit()
 
@@ -137,11 +137,12 @@ def main():
     if not os.path.exists(datedir):
         os.makedirs(datedir)
 
-    create_mysql()
 
     checkin = args.checkin
     checkout = args.checkout
 
+    create_mysql(checkin,checkout)
+    
     initial = time.time()
     with open('AreaInTaiwan.csv', 'r') as f:
         for n in f.readlines()[1:]:
